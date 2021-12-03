@@ -1,0 +1,220 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2598150602461946217
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2598150602461946216}
+  - component: {fileID: 2598150602461946215}
+  - component: {fileID: 8658873357850352728}
+  - component: {fileID: 3887374663996847853}
+  m_Layer: 11
+  m_Name: Double Galaxy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2598150602461946216
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2598150602461946217}
+  m_LocalRotation: {x: 0.4964001, y: 0.32275194, z: -0.20561564, w: 0.77919215}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6307980781340430541}
+  - {fileID: 1810428366543822473}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 65, y: 45, z: 0}
+--- !u!114 &2598150602461946215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2598150602461946217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7cf6837fc65d0d44a3a89d95e50beed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedOfSpinMin: 15
+  speedOfSpinMax: 15
+  spinDirection: -1
+--- !u!114 &8658873357850352728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2598150602461946217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a3f6ae1f27d8e469615af844b67f15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!58 &3887374663996847853
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2598150602461946217}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
+--- !u!1001 &1547397206245719144
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2598150602461946216}
+    m_Modifications:
+    - target: {fileID: 893571512102390662, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319983, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_Name
+      value: Spiral Galaxy For Double Galaxy (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319983, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+--- !u!4 &1810428366543822473 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+  m_PrefabInstance: {fileID: 1547397206245719144}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6623925987281089068
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2598150602461946216}
+    m_Modifications:
+    - target: {fileID: 893571512102390662, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319983, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_Name
+      value: Spiral Galaxy For Double Galaxy
+      objectReference: {fileID: 0}
+    - target: {fileID: 893571512292319983, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+--- !u!4 &6307980781340430541 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 893571512292319969, guid: 4d6aa7779c0b10442b5bd9e145cef33b, type: 3}
+  m_PrefabInstance: {fileID: 6623925987281089068}
+  m_PrefabAsset: {fileID: 0}
