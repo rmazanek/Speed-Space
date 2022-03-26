@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5628e880fff643b4686ecd1f6d6d0bc9, type: 3}
+  m_Name: Wave 898 (Coins LtoR)
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 8693891988314678148, guid: 1f6f56d1c610b9e439ec044029a30dd1, type: 3}
+  pathPrefab: {fileID: 8091226254448908050, guid: 3347bd5ad745f094ba12d61c027d7f4a, type: 3}
+  randomPath: 0
+  timeBetweenSpawns: 0.5
+  spawnRandomFactor: 0.3
+  numberOfEnemies: 5
+  moveSpeed: 2
+  AdjustableNumber: 0
+  enemyWavePausesOtherSpawns: 0
+  childrenRequirePathingInstructions: 0
