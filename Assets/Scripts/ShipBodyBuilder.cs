@@ -31,6 +31,7 @@ public class ShipBodyBuilder : MonoBehaviour
         else
         {
             PolygonCollider2D newCollider = gameObject.AddComponent<PolygonCollider2D>();
+            newCollider.isTrigger = true;
             Vector2[] newPath = shipSpriteBuilder.GetComponent<PolygonCollider2D>().GetPath(0);
             newCollider.SetPath(0,newPath);
             //Debug.Log("There was no collider. New path set: " + newPath);

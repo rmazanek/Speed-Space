@@ -15,6 +15,9 @@ public class GameSession : MonoBehaviour
   [SerializeField] public Sprite DamageMultiplierSprite;
   [SerializeField] public Sprite ProjectileSpeedMultiplierSprite;
   [SerializeField] public Sprite MaxHealthSprite;
+  [SerializeField] public Sprite MaxShieldHealthSprite;
+  [SerializeField] public Sprite ShieldRegenSprite;
+  [SerializeField] public Sprite ShieldCooldownSprite;
   [SerializeField] public Sprite WorkerSprite;
   [Header("Extract Graphics")]
   [SerializeField] GameObject extractCanvasPrefab;
@@ -45,7 +48,12 @@ public class GameSession : MonoBehaviour
   bool initializeLevelNeeded;
   public bool HidePlayers { get; set; }
   public static float GameTimeScale;
+  public float SlowTimeScale { get { return slowTimeScale; } private set { slowTimeScale = value; } }
+  [SerializeField] float slowTimeScale = 0.25f;
+  public LevelContainer CurrentLevel;
   WalletDisplay walletDisplay;
+  public bool FinalLevelEnabled = true;
+  public bool FinalLevelRevealed = false;
 
   private void Awake()
   {
@@ -100,16 +108,33 @@ public class GameSession : MonoBehaviour
     controls = playerBindings.GetPlayerControls();
     levelList = levelManager.GetLevelList();
     levelManager.UpdateLevelCharacteristics();
-    ExtractAvailable = levelList[levelToStart - 1].ExtractAvailable();
+    CurrentLevel = levelList[levelToStart - 1];
+    ExtractAvailable = CurrentLevel.ExtractAvailable();
     InstantiateExtract();
     playerBindings.PlayerShips = playerBindings.GetPlayerShips();
     CycleMainShip = false;
     playerBindings.SetNewMainShip();
     HealthUpdateNeeded = true;
     rotateShipsKeyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("rotateKey", "LeftShift"));
+    InitializeShakeCamera(playerBindings.PlayerShips);
     AllSpawnsPaused = false;
   }
-
+  private void InitializeShakeCamera(List<Player> players)
+  {
+    foreach (Player player in players)
+    {
+      player.InitializeShakeCamera();
+    }
+  }
+  public void ChangeTimeScaleBackToOneAfterSeconds(float timeInSeconds)
+  {
+    StartCoroutine(ChangeTimeScaleBackToOneAfterSecondsCoroutine(timeInSeconds));
+  }
+  IEnumerator ChangeTimeScaleBackToOneAfterSecondsCoroutine(float timeInSeconds)
+  {
+    yield return new WaitForSecondsRealtime(timeInSeconds);
+    Time.timeScale = 1f;
+  }
   public int GetLevelToStart()
   {
     return levelToStart;
@@ -121,6 +146,10 @@ public class GameSession : MonoBehaviour
   public int GetLevelCount()
   {
     return levelCount;
+  }
+  public int GetUnlockedLevelCount()
+  {
+    return levelList.Where(a => a.ExtractAvailable()).Count() + 1;
   }
   public void CountLevels()
   {

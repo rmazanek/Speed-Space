@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelIndex: 3
   backgroundMusic: {fileID: 8300000, guid: c9da3cba547d90e4bbfc85c0caf16f9a, type: 3}
-  backgroundMaterial: {fileID: 2100000, guid: 67bcc350afea31b47950f7bcf8e14f7c, type: 2}
+  backgroundMaterial: {fileID: 2100000, guid: d2fc65bbc2fa35d439370bc0591377ef, type: 2}
   enemySpawner: {fileID: 1846504044238891605, guid: beb20c61128be184882b3e43ec462b7d, type: 3}
   bossDefeated: 0
   enemyMoveSpeedModifier: 1.25
@@ -54,7 +54,9 @@ MonoBehaviour:
   enemyMaxTimeBetweenShotsModifier: 0.5
   enemyDamageModifier: 1.5
   enemyTimeBetweenSpawnsModifier: 0.8
+  minEnemyTimeBetweenSpawnsModifier: 0.1
   enemyNumberModifier: 1.1
+  maxEnemyNumberModifier: 5
   modifierWeights: 640000006400000064000000640000006400000064000000
   asteroidFieldPrefab: {fileID: 4560469615802802686, guid: 0ef1110a3d3af954ea6d0cbb4d950178, type: 3}
   secondsBeforeAsteroidSpawn: 1

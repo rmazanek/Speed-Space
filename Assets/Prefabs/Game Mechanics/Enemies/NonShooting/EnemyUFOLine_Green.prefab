@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3782096629504671591}
   - component: {fileID: 1872466678182010876}
   - component: {fileID: -3253271081669351253}
+  - component: {fileID: 6478289164597717170}
   m_Layer: 0
   m_Name: EnemyUFOLine_Green
   m_TagString: Untagged
@@ -46,15 +47,19 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4171629226402805045}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58585064a4adf4346a0bb05e0507e568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isShop: 0
   loopRoute: 0
-  destroyAtEnd: 0
-  teleportBackToStart: 1
+  destroyAtEnd: 1
+  teleportBackToStart: 0
+  minimumTemporarySpeedFactor: 0.25
+  maximumTemporarySpeedFactor: 1
+  PartOfArrangement: 0
+  ArrangementIndex: 0
 --- !u!114 &-3253271081669351253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,6 +72,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2e3a7b99ea430640a15efcda9bf100a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6478289164597717170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4171629226402805045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8605eed3d0a1adc4e8b92064bf048825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  children:
+  - {fileID: 1799119796730662809}
+  - {fileID: 3484994127181403925}
+  - {fileID: 4019449185766260324}
+  - {fileID: 4525032496419909908}
+  - {fileID: 5238701521674610353}
+  - {fileID: 749528783372376201}
+  - {fileID: 6242035835140870235}
+  InitialOffset: {x: 0, y: 0, z: 0}
+  Offset: {x: 0, y: 0, z: 0}
+  ChildrenNumber: 0
+  direction: {x: 1, y: 0, z: 0}
+  spaceBetween: 1
 --- !u!1001 &693787619790090354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -148,6 +178,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3782096629504671591}
     m_Modifications:
+    - target: {fileID: -7731346564808217714, guid: 316fd891658a549459fed2c79086cf55, type: 3}
+      propertyPath: health
+      value: 600
+      objectReference: {fileID: 0}
     - target: {fileID: -1876029917309419736, guid: 316fd891658a549459fed2c79086cf55, type: 3}
       propertyPath: damageReactionSound
       value: 

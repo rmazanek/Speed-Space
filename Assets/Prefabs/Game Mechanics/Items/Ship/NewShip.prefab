@@ -126,8 +126,9 @@ MonoBehaviour:
   powerUpSoundVolume: 0.05
   playerPrefabs:
   - {fileID: 3128932728189016614, guid: 67617713ce042f341ab80c0b44f07002, type: 3}
+  itemName: New Ship
   tooltipText: A new ship!
-  maxShipsWarning: Maximum number of ships reached!
+  maxShipsWarning: Maximum number of ships reached! Here are some coins!
   maxShipsSprite: {fileID: 21300000, guid: 75c403e414d8aa544ae7d84efbda5fd7, type: 3}
   coinAnimator: {fileID: 9100000, guid: 355e32e40c7405e4981eb70d3f9f2ed9, type: 2}
   coinIncrease: 10

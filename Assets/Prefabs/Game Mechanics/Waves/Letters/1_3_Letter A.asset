@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5628e880fff643b4686ecd1f6d6d0bc9, type: 3}
+  m_Name: 1_3_Letter A
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 3270213556007638661, guid: 4943062f7e4552a4c89e88c5cf9dfb3e, type: 3}
+  pathPrefab: {fileID: 8091226254448908050, guid: 03a86615db4795041a0fe259c5f89e18, type: 3}
+  randomPath: 0
+  timeBetweenSpawns: 0.5
+  spawnRandomFactor: 0.3
+  numberOfEnemies: 1
+  moveSpeed: 8
+  AdjustableNumber: 0
+  enemyWavePausesOtherSpawns: 0
+  childrenRequirePathingInstructions: 0

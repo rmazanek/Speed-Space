@@ -9,6 +9,7 @@ public class HealthItem : Item
   [SerializeField] AudioClip powerUpSound;
   [SerializeField] float powerUpSoundVolume = 0.05f;
   Player player;
+  [SerializeField] string itemName;
   [SerializeField] string tooltipText = "Tooltip text.";
   TooltipDisplay tooltipDisplay;
   Sprite sprite;
@@ -39,7 +40,7 @@ public class HealthItem : Item
   }
   public void UpdateTooltipText()
   {
-    tooltipDisplay.DisplayChange(tooltipText, sprite);
+    tooltipDisplay.DisplayChange(itemName, tooltipText, sprite);
   }
   private bool PlayerIsDetected()
   {
@@ -63,12 +64,20 @@ public class HealthItem : Item
     PopulateTooltipText();
     return tooltipText;
   }
+  public override string GetItemName()
+  {
+    itemName = itemName.Replace("{maxHealth}", maxHealthIncrease.ToString());
+    itemName = itemName.Replace("{heal}", currentHealthIncrease.ToString());
+    return itemName;
+  }
   public override Sprite GetSprite()
   {
     return sprite;
   }
   public override void PopulateTooltipText()
   {
+    itemName = itemName.Replace("{maxHealth}", maxHealthIncrease.ToString());
+    itemName = itemName.Replace("{heal}", currentHealthIncrease.ToString());
     tooltipText = tooltipText.Replace("{maxHealth}", maxHealthIncrease.ToString());
     tooltipText = tooltipText.Replace("{heal}", currentHealthIncrease.ToString());
   }

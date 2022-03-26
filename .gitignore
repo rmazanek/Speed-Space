@@ -11,6 +11,7 @@
 /[Mm]emoryCaptures/
 /[Aa]ssets/z_Images/
 /[Aa]ssets/z_Sounds/
+/[Uu]serSettings/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta

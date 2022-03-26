@@ -4,173 +4,283 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [Header("Enemy")]
-    [SerializeField] float health = 100;
-    [SerializeField] GameObject explosionVfxPrefab;
-    [SerializeField] float explosionDuration = 0.3f;
-    [SerializeField] AudioClip explosionSound;
-    [SerializeField] float explosionSoundVolume = 0.05f;
-    [SerializeField] int enemyScoreValue = 100;
-    [SerializeField] int damageReactionColorFrames = 20;
-    [SerializeField] Color damageReactionColor;
-    [SerializeField] AudioClip damageReactionSound;
-    [SerializeField] float damageReactionSoundVolume = 0.05f;
-    
-    [Header("Projectile")]
-    [SerializeField] bool shootingHandledElsewhere = false;
-    [SerializeField] float shotCounter;
-    [SerializeField] float minTimeBetweenShots = 0.2f;
-    [SerializeField] float maxTimeBetweenShots = 3f;
-    [SerializeField] GameObject enemyProjectile;
-    [SerializeField] float enemyProjectileSpeed = 10f;
+  [Header("Enemy")]
+  [SerializeField] float health = 100;
+  [SerializeField] GameObject explosionVfxPrefab;
+  [SerializeField] public float ExplosionDuration = 0.3f;
+  [SerializeField] AudioClip explosionSound;
+  [SerializeField] float explosionSoundVolume = 0.05f;
+  [SerializeField] int enemyScoreValue = 100;
+  [SerializeField] int damageReactionColorFrames = 20;
+  [SerializeField] Color damageReactionColor;
+  [SerializeField] AudioClip damageReactionSound;
+  [SerializeField] float damageReactionSoundVolume = 0.05f;
+  public bool CanBeSlowed = true;
+  [SerializeField] float minimumTemporarySpeedFactor = 0.15f;
+  [SerializeField] float maximumTemporarySpeedFactor = 1f;
+  [Header("Projectile")]
+  [SerializeField] bool shootingHandledHere = true;
+  [SerializeField] float shotCounter;
+  [SerializeField] float minTimeBetweenShots = 0.2f;
+  [SerializeField] float maxTimeBetweenShots = 3f;
+  [SerializeField] GameObject enemyProjectile;
+  [SerializeField] bool aimedShot = false;
+  [SerializeField] float enemyProjectileSpeed = 10f;
+  [Header("Rapid Fire Options")]
+  [SerializeField] bool isRapidFire = false;
+  [SerializeField] int numberOfRapidFireProjectiles = 40;
+  [SerializeField] float rapidFireDelay = 0.2f;
 
-    //[SerializeField] float enemyProjectileXMomentumFractionConserved = 0f;
+  //Cached refs
+  GameSession gameSession;
+  LootDropHandler lootDropHandler;
+  LevelManager levelManager;
+  List<LevelContainer> levelList;
+  LevelContainer currentLevel;
+  Color originalColor;
+  bool isDestroyed = false;
+  DamageReaction damageReaction;
+  float maxHealth;
+  DamageFriendOnDeath damageFriendOnDeath;
+  Vector2 initialVelocity;
+  Rigidbody2D rigidbodyOnObject;
+  BossDuties bossDuties;
 
-    //Cached refs
-    GameSession gameSession;
-    LootDropHandler lootDropHandler;
-    LevelManager levelManager;
-    List<LevelContainer> levelList;
-    LevelContainer currentLevel;
-    Color originalColor;
-    bool isDestroyed = false;
-    DamageReaction damageReaction;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        shotCounter = Random.Range(minTimeBetweenShots, maxTimeBetweenShots);
-        gameSession = FindObjectOfType<GameSession>();
-        levelManager = FindObjectOfType<LevelManager>();
-        levelList = levelManager.GetLevelList();
-        currentLevel = levelList[gameSession.GetLevelToStart()-1];
-        health = health * currentLevel.EnemyHealthCumulativeMultiplier;
-        maxTimeBetweenShots = Mathf.Max(maxTimeBetweenShots * currentLevel.EnemyMaxTimeBetweenShotsCumulativeMultiplier, minTimeBetweenShots);
-        originalColor = gameObject.GetComponent<SpriteRenderer>().color;
+  // Start is called before the first frame update
+  void Start()
+  {
+    maxHealth = health;
+    shotCounter = Random.Range(minTimeBetweenShots, maxTimeBetweenShots);
+    gameSession = FindObjectOfType<GameSession>();
+    levelManager = FindObjectOfType<LevelManager>();
+    levelList = levelManager.GetLevelList();
+    currentLevel = levelList[gameSession.GetLevelToStart() - 1];
+    health = health * currentLevel.EnemyHealthCumulativeMultiplier;
+    maxTimeBetweenShots = Mathf.Max(maxTimeBetweenShots * currentLevel.EnemyMaxTimeBetweenShotsCumulativeMultiplier, minTimeBetweenShots);
+    originalColor = gameObject.GetComponent<SpriteRenderer>().color;
+    lootDropHandler = gameObject.GetComponent<LootDropHandler>();
+    damageReaction = gameObject.GetComponent<DamageReaction>();
+    damageFriendOnDeath = gameObject.GetComponent<DamageFriendOnDeath>();
+    rigidbodyOnObject = gameObject.GetComponent<Rigidbody2D>();
+    initialVelocity = rigidbodyOnObject.velocity;
+    bossDuties = gameObject.GetComponentInChildren<BossDuties>();
+  }
 
-        lootDropHandler = gameObject.GetComponent<LootDropHandler>();
-        damageReaction = gameObject.GetComponent<DamageReaction>();
+  // Update is called once per frame
+  void Update()
+  {
+    if (shootingHandledHere)
+    {
+      CountDownAndShoot();
     }
+  }
 
-    // Update is called once per frame
-    void Update()
+  private void AdjustProjectile(GameObject projectile)
+  {
+    projectile.GetComponent<DamageDealer>().MultiplyDamage(currentLevel.EnemyDamageCumulativeMultiplier);
+  }
+  private void CountDownAndShoot()
+  {
+    shotCounter -= Time.deltaTime;
+    if (shotCounter <= 0f)
     {
-        if (!shootingHandledElsewhere)
-        {
-            CountDownAndShoot();
-        }
+      Fire();
+      shotCounter = Random.Range(minTimeBetweenShots, AdjustedMaxTimeBetweenShots());
     }
-
-    private void AdjustProjectile(GameObject projectile)
+  }
+  private float AdjustedMaxTimeBetweenShots()
+  {
+    levelManager = FindObjectOfType<LevelManager>();
+    levelList = levelManager.GetLevelList();
+    currentLevel = levelList[gameSession.GetLevelToStart() - 1];
+    float adjustedMaxTime = Mathf.Max(minTimeBetweenShots, maxTimeBetweenShots * currentLevel.EnemyMaxTimeBetweenShotsCumulativeMultiplier);
+    Debug.Log("Adjusted Max Time Between Shots: " + adjustedMaxTime);
+    return adjustedMaxTime;
+  }
+  private void Fire()
+  {
+    if (isRapidFire)
     {
-        projectile.GetComponent<DamageDealer>().MultiplyDamage(currentLevel.EnemyDamageCumulativeMultiplier);
+      FireRapid();
     }
-    private void CountDownAndShoot()
+    else
     {
-        shotCounter -= Time.deltaTime;
-        if (shotCounter <= 0f)
-        {
-            Fire();
-            shotCounter = Random.Range(minTimeBetweenShots, AdjustedMaxTimeBetweenShots());
-        }
+      FireSingle();
     }
-    private float AdjustedMaxTimeBetweenShots()
+  }
+  private void FireSingle()
+  {
+    Vector2 projectileVelocity;
+    Quaternion projectileRotation;
+    if (aimedShot)
     {
-        levelManager = FindObjectOfType<LevelManager>();
-        levelList = levelManager.GetLevelList();
-        currentLevel = levelList[gameSession.GetLevelToStart()-1];
-        float adjustedMaxTime = Mathf.Max(minTimeBetweenShots, maxTimeBetweenShots * currentLevel.EnemyMaxTimeBetweenShotsCumulativeMultiplier);
-        Debug.Log("Adjusted Max Time Between Shots: " + adjustedMaxTime);
-        return adjustedMaxTime;
+      projectileVelocity = -transform.up * enemyProjectileSpeed;
+      projectileRotation = transform.rotation;
     }
-    private void Fire()
+    else
     {
-        //float parentVelocityX = GetComponent<Rigidbody2D>().velocity.x;
-        GameObject projectile = Instantiate(enemyProjectile, transform.position, Quaternion.identity) as GameObject;
-        AdjustProjectile(projectile);
-        projectile.GetComponent<Rigidbody2D>().velocity = new Vector2(0,-enemyProjectileSpeed);
-        //projectile.GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity + new Vector2(0,-enemyProjectileSpeed);        
-        // parentVelocityX * enemyProjectileXMomentumFractionConserved
+      projectileVelocity = new Vector2(0, -enemyProjectileSpeed);
+      projectileRotation = Quaternion.identity;
     }
-
-    private void OnTriggerEnter2D(Collider2D other)
+    GameObject projectile = Instantiate(enemyProjectile, transform.position, projectileRotation) as GameObject;
+    AdjustProjectile(projectile);
+    projectile.GetComponent<Rigidbody2D>().velocity = projectileVelocity;
+  }
+  private void FireRapid()
+  {
+    StartCoroutine(FireRapidCoroutine());
+  }
+  IEnumerator FireRapidCoroutine()
+  {
+    int puffs = 0;
+    while (puffs < numberOfRapidFireProjectiles)
     {
-        DamageDealer damageDealer = other.gameObject.GetComponent<DamageDealer>();
-        if (!damageDealer) { return; }
-        ProcessHit(damageDealer);
+      FireSingle();
+      puffs++;
+      yield return new WaitForSeconds(rapidFireDelay);
     }
-
-    private void ProcessHit(DamageDealer damageDealer)
+  }
+  private void OnTriggerEnter2D(Collider2D other)
+  {
+    DamageDealer damageDealer = other.gameObject.GetComponent<DamageDealer>();
+    if (!damageDealer) { return; }
+    ProcessHit(damageDealer);
+  }
+  public void ReceiveDamage(int damage)
+  {
+    GameObject dummyAttacker = new GameObject();
+    dummyAttacker.transform.position = gameObject.transform.position;
+    dummyAttacker.transform.rotation = gameObject.transform.rotation;
+    DamageDealer damageDealer = dummyAttacker.AddComponent<DamageDealer>();
+    //damageDealer.SetDestroySelfOnHit(true);
+    damageDealer.SetDamage(damage);
+    ProcessHit(damageDealer);
+  }
+  private void ProcessHit(DamageDealer damageDealer)
+  {
+    health -= damageDealer.GetDamage();
+    damageDealer.Hit();
+    if (damageReaction != null)
     {
-        health -= damageDealer.GetDamage();
-        damageDealer.Hit();
-        if(damageReaction != null)
-        {
-            damageReaction.ProcessHit(damageDealer);
-        }
-        else
-        {
-            StartCoroutine(DamageReaction());
-            AudioSource.PlayClipAtPoint(damageReactionSound, Camera.main.transform.position, damageReactionSoundVolume);
-        }
-        
-        if ((health <= 0) && !isDestroyed)
-        {
-          isDestroyed = true;
-          DestroyEnemy();
-          gameSession.AddToScore(enemyScoreValue);
-        }
+      damageReaction.ProcessHit(damageDealer);
     }
-    private void BossDutiesCheck()
+    else
     {
-        var bossDuties = gameObject.GetComponentInChildren<BossDuties>();
-        if(bossDuties != null)
-        {
-            gameSession = FindObjectOfType<GameSession>();
-            UnpauseSpawns();
-            levelManager = FindObjectOfType<LevelManager>();
-            levelList = levelManager.GetLevelList();
-            currentLevel = levelList[gameSession.GetLevelToStart()-1];
-            bossDuties.BossDefeated();
-            ModifyEnemies();
-            currentLevel.LoopCount();
-            currentLevel.SetBossDefeated();
-        }
-    }
-    private void DestroyEnemy()
-    {
-        GameObject explosionVfx = Instantiate(explosionVfxPrefab, transform.position, Quaternion.identity);
-        AudioSource.PlayClipAtPoint(explosionSound, Camera.main.transform.position, explosionSoundVolume);
-        
-        BossDutiesCheck();
-
-        Destroy(gameObject);
-        Destroy(explosionVfx, explosionDuration);
-        
-        if(lootDropHandler != null)
-        {
-            lootDropHandler.DropItem();
-        }
-    }
-    private void ModifyEnemies()
-    {
-        LevelManager levelManager = FindObjectOfType<LevelManager>();
-        List<LevelContainer> levelList = levelManager.GetLevelList();
-        LevelContainer currentLevel = levelList[gameSession.GetLevelToStart()-1];
-        currentLevel.InvokeRandomModifier();
+      StartCoroutine(DamageReaction());
+      AudioSource.PlayClipAtPoint(damageReactionSound, Camera.main.transform.position, damageReactionSoundVolume);
     }
 
-    IEnumerator DamageReaction()
+    if ((health <= 0) && !isDestroyed)
     {
-        gameObject.GetComponent<SpriteRenderer>().color = damageReactionColor;
-        yield return new WaitForSeconds(damageReactionColorFrames * Time.deltaTime);
-        gameObject.GetComponent<SpriteRenderer>().color = originalColor;
+      isDestroyed = true;
+      damageFriendOnDeath?.DoDamage();
+      DestroyEnemy();
+      gameSession.AddToScore(enemyScoreValue);
     }
-    private void UnpauseSpawns()
+  }
+  private void DestroyEnemy()
+  {
+    DestroyWithoutReward();
+    DropLoot();
+  }
+  private void DropLoot()
+  {
+    if (lootDropHandler != null)
     {
-        if(FindObjectsOfType<BossDuties>().Length <=1)
-        {
-            gameSession.AllSpawnsPaused = false;
-        }
+      lootDropHandler.DropItem();
     }
+  }
+  private void UnpauseCheck()
+  {
+    if (OneRemainingWavePauser() & !ShopExists())
+    {
+      gameSession = FindObjectOfType<GameSession>();
+      if (gameSession != null)
+      {
+        gameSession.AllSpawnsPaused = false;
+      }
+    }
+  }
+  private bool ShopExists()
+  {
+    EnemyPathing potentialShop = FindObjectOfType<EnemyPathing>();
+    return (potentialShop?.IsShop() ?? false);
+  }
+  private bool OneRemainingWavePauser()
+  {
+    return FindObjectsOfType<EnemyWavePauser>().Length <= 1 && (FindObjectOfType<BossDuties>() == null);
+  }
+  public void DestroyWithoutReward()
+  {
+    UnpauseCheck();
+    PlayExplosion(transform.position);
+
+    if (bossDuties != null)
+    {
+      bossDuties.BossDutiesCheck();
+    }
+    else
+    {
+      Destroy(gameObject);
+    }
+  }
+  public void PlayExplosion(Vector3 position)
+  {
+    GameObject explosionVfx = Instantiate(explosionVfxPrefab, position, Quaternion.identity);
+    AudioSource.PlayClipAtPoint(explosionSound, Camera.main.transform.position, explosionSoundVolume);
+    Destroy(explosionVfx, ExplosionDuration);
+  }
+  IEnumerator DamageReaction()
+  {
+    gameObject.GetComponent<SpriteRenderer>().color = damageReactionColor;
+    yield return new WaitForSeconds(damageReactionColorFrames * Time.deltaTime);
+    gameObject.GetComponent<SpriteRenderer>().color = originalColor;
+  }
+  public float GetHealth()
+  {
+    return health;
+  }
+  public float GetMaxHealth()
+  {
+    return maxHealth;
+  }
+  public void SetBaseProjectileSpeed(float newSpeed)
+  {
+    enemyProjectileSpeed = newSpeed;
+  }
+  public void SetBaseMinMaxTimeBetweenShots(float newTimeBetweenShots)
+  {
+    minTimeBetweenShots = newTimeBetweenShots;
+    maxTimeBetweenShots = newTimeBetweenShots;
+  }
+  public void SetBaseMinMaxTimeBetweenShots(float newMin, float newMax)
+  {
+    minTimeBetweenShots = newMin;
+    maxTimeBetweenShots = newMax;
+  }
+  IEnumerator MultiplySpeedByFactorTemporarilyCoroutine(float factor, float timeInSeconds)
+  {
+    Vector2 currentDirection = rigidbodyOnObject.velocity.normalized;
+    rigidbodyOnObject.velocity = currentDirection * rigidbodyOnObject.velocity.magnitude * Mathf.Clamp(rigidbodyOnObject.velocity.magnitude * factor / initialVelocity.magnitude, minimumTemporarySpeedFactor, maximumTemporarySpeedFactor);
+    yield return new WaitForSeconds(timeInSeconds);
+    currentDirection = rigidbodyOnObject.velocity.normalized;
+    rigidbodyOnObject.velocity = currentDirection * rigidbodyOnObject.velocity.magnitude / factor;
+  }
+  public void MultiplySpeedByFactorTemporarily(float factor, float timeInSeconds)
+  {
+    if (bossDuties == null && CanBeSlowed)
+    {
+      StartCoroutine(MultiplySpeedByFactorTemporarilyCoroutine(factor, timeInSeconds));
+    }
+  }
+  IEnumerator DestroyAfterTimeWithoutRewardCoroutine(float timeInSeconds)
+  {
+    Time.timeScale = gameSession.SlowTimeScale;
+    yield return new WaitForSecondsRealtime(timeInSeconds);
+    DestroyWithoutReward();
+  }
+  public void DestroyAfterTimeWithoutReward(float timeInSeconds)
+  {
+    StartCoroutine(DestroyAfterTimeWithoutRewardCoroutine(timeInSeconds));
+  }
 }

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5117733998972879756}
   - component: {fileID: 5117733998972879759}
   - component: {fileID: 3413812861789898819}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Weapon_Two Laser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,8 +117,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f34bbdcc102a4345ad4cb72cd244c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tier: 1
   powerUpSound: {fileID: 8300000, guid: 7e27b8a3fd710184db710cf17300acd3, type: 3}
   powerUpSoundVolume: 0.05
+  itemName: Double Shot
   tooltipText: Fires a {damage} damage {projectileType} every {useCooldown} seconds
     at a speed of {projectileSpeed}.
 --- !u!61 &5117733998972879757
@@ -178,7 +180,7 @@ Halo:
   m_Enabled: 1
   m_Color:
     serializedVersion: 2
-    rgba: 4286611584
+    rgba: 4278255360
   m_Size: 0.5
 --- !u!114 &3413812861789898819
 MonoBehaviour:
@@ -203,7 +205,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5117733999195197625}
   - component: {fileID: 5117733999195197606}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GameObject (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

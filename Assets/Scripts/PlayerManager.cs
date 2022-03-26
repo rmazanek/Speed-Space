@@ -16,6 +16,7 @@ public class PlayerManager : MonoBehaviour
     Vector3 parentPosition;
     List<Player> playerShips;
     public int PositionIndex { get; set;}
+    [SerializeField] Shield shield;
    // Start is called before the first frame update
     private void Update()
     {
@@ -57,11 +58,31 @@ public class PlayerManager : MonoBehaviour
             if (mainPlayerShip)
             {
                 GetComponent<Collider2D>().enabled = true;
+                EnableShield();
             }
             else
             {
                 GetComponent<Collider2D>().enabled = false;
+                DisableShield();
             }
+        }
+    }
+    public void SetShield(Shield newShield)
+    {
+        shield = newShield;
+    }
+    void EnableShield()
+    {
+        if(shield.isActiveAndEnabled)
+        {
+            shield.EnableCollider2D();
+        }
+    }
+    void DisableShield()
+    {
+        if(shield.isActiveAndEnabled)
+        {
+            shield.DisableCollider2D();
         }
     }
     private void ChangeShipTransparency()
@@ -73,7 +94,15 @@ public class PlayerManager : MonoBehaviour
             SpriteRenderer[] spriteRenderers = gameObject.GetComponentsInChildren<SpriteRenderer>();
             foreach(SpriteRenderer spriteRenderer in spriteRenderers)
             {
-                spriteRenderer.color = tempColor;
+                if(!spriteRenderer.GetComponent<Shield>())
+                {
+                    spriteRenderer.color = tempColor;
+                }
+                else
+                {
+                    Color inactiveAlphaCurrentColor = new Color (spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, spriteRenderer.color.a);
+                    spriteRenderer.color = inactiveAlphaCurrentColor;
+                }
             }
             
             ParticleSystem[] particleSystems = gameObject.GetComponentsInChildren<ParticleSystem>();
@@ -96,7 +125,15 @@ public class PlayerManager : MonoBehaviour
             SpriteRenderer[] spriteRenderers = gameObject.GetComponentsInChildren<SpriteRenderer>();
             foreach(SpriteRenderer spriteRenderer in spriteRenderers)
             {
-                spriteRenderer.color = tempColor;
+                if(!spriteRenderer.GetComponent<Shield>())
+                {
+                    spriteRenderer.color = tempColor;
+                }
+                else
+                {
+                    Color fullAlphaCurrentColor = new Color (spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1f);
+                    spriteRenderer.color = fullAlphaCurrentColor;
+                }
             }
             
             ParticleSystem[] particleSystems = gameObject.GetComponentsInChildren<ParticleSystem>();

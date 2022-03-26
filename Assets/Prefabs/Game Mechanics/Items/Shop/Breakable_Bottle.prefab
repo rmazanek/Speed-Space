@@ -279,7 +279,6 @@ GameObject:
   - component: {fileID: 6500078486343878727}
   - component: {fileID: 6500078486343878724}
   - component: {fileID: 6500078486343878725}
-  - component: {fileID: 5649238924864695944}
   m_Layer: 13
   m_Name: Breakable_Bottle
   m_TagString: Untagged
@@ -363,7 +362,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6500078486343878731}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -420,6 +419,13 @@ MonoBehaviour:
   explosionSound: {fileID: 8300000, guid: 60510c2f9f6e40445ab8ad6392265e8e, type: 3}
   explosionSoundVolume: 0.125
   obstacleScoreValue: 100
+  haloColors:
+  - {fileID: 8530743775407486032, guid: f6dbe07d0e32d504d9ebe6f5ccf61f8e, type: 3}
+  - {fileID: 1564062487418050234, guid: ea02bfca5e2e1084b9bda5580522202a, type: 3}
+  - {fileID: 2593012398534819690, guid: 4913a4b9f8d28d44d967054b013f8ee2, type: 3}
+  - {fileID: 5385629219535678703, guid: 49758aa530d46604b8ce6e1f7f85fd68, type: 3}
+  - {fileID: 5016773222777950225, guid: 7bba4917e52faa245ac5d635589c494b, type: 3}
+  - {fileID: 6357373907813412567, guid: e9b16b77ab6e2b948b0ce818db41f417, type: 3}
   brokenSpriteLevels:
   - {fileID: 21300000, guid: 230f477e5e5de7448916e7439c221381, type: 3}
   - {fileID: 21300000, guid: 09993abcb3314ca49a79385e74535cfc, type: 3}
@@ -430,29 +436,27 @@ MonoBehaviour:
   damageReactionSound: {fileID: 8300000, guid: ccc6884e6ec71b34ab17216a892fd330, type: 3}
   damageReactionSoundVolume: 0.075
   items:
+  - {fileID: 8733570793785254160, guid: 07ad3bfea322c5d459669c158693080e, type: 3}
+  - {fileID: 8733570793785254160, guid: b65d1b53264f1554d89e1e148b6173e6, type: 3}
+  - {fileID: 8733570793785254160, guid: 5fbd98e79b827c24696e57cd0fa8678b, type: 3}
+  - {fileID: 6286026661706088433, guid: ebd120a237bc7b44b88dac7d277263a3, type: 3}
+  - {fileID: 4102171140179394698, guid: 9c94ef863040b934fb5315200e2524b0, type: 3}
+  - {fileID: 4102171140179394698, guid: 2e5afd0a7f18798478fbd8594cf4e8c4, type: 3}
+  - {fileID: 3947234753162807634, guid: 48d76bfb17f14bd4aa9ca8830ea91511, type: 3}
+  - {fileID: 5117733998972879745, guid: d2885a5c68056264e942b10212d3605c, type: 3}
   - {fileID: 8733570793785254160, guid: 63bdce160e4f5474283252508b809e6a, type: 3}
   - {fileID: 8733570793785254160, guid: f403ccb4fb106f344a49d75d7efcce07, type: 3}
   - {fileID: 8733570793785254160, guid: 6689831e68576b24f85e6ceed4bacc40, type: 3}
-  - {fileID: 8733570793785254160, guid: 56cbb19b2ed289c4aa7741b3e93a45c4, type: 3}
   - {fileID: 8733570793785254160, guid: 04358b1e352c6d343b99c15c17a88285, type: 3}
-  - {fileID: 4102171140179394698, guid: 9c94ef863040b934fb5315200e2524b0, type: 3}
-  - {fileID: 3947234753162807634, guid: 48d76bfb17f14bd4aa9ca8830ea91511, type: 3}
-  - {fileID: 5117733998972879745, guid: d2885a5c68056264e942b10212d3605c, type: 3}
-  weights: 6400000064000000640000006400000064000000640000006400000064000000
+  - {fileID: 8733570793785254160, guid: 56cbb19b2ed289c4aa7741b3e93a45c4, type: 3}
+  - {fileID: 6558051134590180320, guid: b058314e1cb58944cb9ecf836cd59d12, type: 3}
+  - {fileID: 8774156751641575567, guid: e7c138a2236dbd243b094b160e1dfd71, type: 3}
+  - {fileID: 2079987576732055652, guid: 1e22c91025887624e919c7c0da40c231, type: 3}
+  - {fileID: 7493523522971451663, guid: 739ee361a05b6ff44bf7426d05131bc2, type: 3}
+  - {fileID: 7650992513748219262, guid: 0c96f17f67a989642aeaf517d3742649, type: 3}
+  weights: 0000000000000000000000003200000014000000320000003200000032000000190000000f0000000f0000000f0000000f0000001e0000001e0000001e0000001e0000000f000000
   itemInside: {fileID: 6500078485698026822}
   priceTagDisplay: {fileID: 6500078486724673899}
---- !u!122 &5649238924864695944
-Halo:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6500078486343878731}
-  m_Enabled: 1
-  m_Color:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_Size: 1
 --- !u!1 &6500078486724673897
 GameObject:
   m_ObjectHideFlags: 0

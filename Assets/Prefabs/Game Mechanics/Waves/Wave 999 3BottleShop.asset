@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: Wave 999 3BottleShop
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 6497517816320489174, guid: 09e9181f43c014f498de08556ea64d5f, type: 3}
-  pathPrefab: {fileID: 8091226254448908050, guid: 6b52d12e38973c64fbea3bf4bc14ada0, type: 3}
+  pathPrefab: {fileID: 8091226254448908050, guid: b7c668ef8b6aafe419129a2757f8839a, type: 3}
   randomPath: 0
   timeBetweenSpawns: 1.5
   spawnRandomFactor: 0.3
   numberOfEnemies: 1
   moveSpeed: 2
+  AdjustableNumber: 0
+  enemyWavePausesOtherSpawns: 0
+  childrenRequirePathingInstructions: 0

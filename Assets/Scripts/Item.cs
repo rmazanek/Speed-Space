@@ -6,6 +6,11 @@ public class Item : MonoBehaviour
 {
   //string tooltipText = "Tooltip text.";
   //Sprite sprite;
+  [SerializeField] protected int tier;
+  public int GetTier()
+  {
+    return tier;
+  }
   public virtual string GetTooltipText() 
   {
     PopulateTooltipText();
@@ -16,4 +21,8 @@ public class Item : MonoBehaviour
     return null;
   }
   public virtual void PopulateTooltipText() {}
+  public virtual string GetItemName() 
+  {
+    return null;
+  }
 }

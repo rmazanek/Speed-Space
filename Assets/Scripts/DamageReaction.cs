@@ -46,10 +46,18 @@ public class DamageReaction : MonoBehaviour
     {
         if(damageNumberPopupPrefab != null)
         {
-            Vector3 damageNumberPosition = new Vector3(damageDealer.transform.position.x, damageDealer.transform.position.y, -1);
+            Vector3 damageNumberPosition;
+    
+            if(damageDealer.transform != null)
+            {   
+                damageNumberPosition = new Vector3(damageDealer.transform.position.x, damageDealer.transform.position.y, -1);
+            }
+            else
+            {
+                damageNumberPosition = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, -1);
+            }
             GameObject damageNumberPopup = Instantiate(damageNumberPopupPrefab, damageNumberPosition, Quaternion.identity);
             damageNumberPopup.GetComponent<TextMeshPro>().text = damageDealer.GetDamage().ToString();
-
             Destroy(damageNumberPopup, damageNumberPopupDuration);
         }
     }

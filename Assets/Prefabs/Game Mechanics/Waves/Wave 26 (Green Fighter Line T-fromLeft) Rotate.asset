@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5628e880fff643b4686ecd1f6d6d0bc9, type: 3}
+  m_Name: Wave 26 (Green Fighter Line T-fromLeft) Rotate
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 1699660577986624153, guid: bb04ac30f932e49479054c5223ca16b7, type: 3}
+  pathPrefab: {fileID: 8091226254448908050, guid: 25749dbeede38184ca852c5cedec7a8d, type: 3}
+  randomPath: 0
+  timeBetweenSpawns: 4
+  spawnRandomFactor: 0.3
+  numberOfEnemies: 2
+  moveSpeed: 2
+  enemyWavePausesOtherSpawns: 0
+  childrenRequirePathingInstructions: 1

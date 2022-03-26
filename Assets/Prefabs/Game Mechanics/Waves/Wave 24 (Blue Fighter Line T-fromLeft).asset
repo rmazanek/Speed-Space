@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5628e880fff643b4686ecd1f6d6d0bc9, type: 3}
+  m_Name: Wave 24 (Blue Fighter Line T-fromLeft)
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 1699660577986624153, guid: a08c4cc6b9d75514d91fa25bd48db513, type: 3}
+  pathPrefab: {fileID: 8091226254448908050, guid: 25749dbeede38184ca852c5cedec7a8d, type: 3}
+  randomPath: 0
+  timeBetweenSpawns: 4
+  spawnRandomFactor: 0.3
+  numberOfEnemies: 3
+  moveSpeed: 3
+  enemyWavePausesOtherSpawns: 0
+  childrenRequirePathingInstructions: 1

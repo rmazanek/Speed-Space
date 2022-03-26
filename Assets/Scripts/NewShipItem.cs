@@ -13,6 +13,7 @@ public class NewShipItem : Item
   GameSession gameSession;
   PlayerBindings playerBindings;
   Player collidingPlayer;
+  [SerializeField] string itemName;
   [SerializeField] string tooltipText = "Tooltip text.";
   [SerializeField] string maxShipsWarning = "Maximum number of ships reached!";
   [SerializeField] Sprite maxShipsSprite;
@@ -97,7 +98,7 @@ public class NewShipItem : Item
   }
   public void UpdateTooltipText()
   {
-    tooltipDisplay.DisplayChange(tooltipText, sprite);
+    tooltipDisplay.DisplayChange(itemName, tooltipText, sprite);
   }
   private bool PlayerIsDetected()
   {
@@ -119,6 +120,10 @@ public class NewShipItem : Item
   public override string GetTooltipText()
   {
     return tooltipText;
+  }
+  public override string GetItemName()
+  {
+    return itemName;
   }
   public override Sprite GetSprite()
   {

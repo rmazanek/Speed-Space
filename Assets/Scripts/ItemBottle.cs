@@ -12,20 +12,21 @@ public class ItemBottle : MonoBehaviour
     [SerializeField] AudioClip explosionSound;
     [SerializeField] float explosionSoundVolume = 0.05f;
     [SerializeField] int obstacleScoreValue = 0;
+    [SerializeField] GameObject[] haloColors;
     
     [Header("Damage Reaction")]
     [SerializeField] Sprite[] brokenSpriteLevels;
     [SerializeField] int damageReactionColorFrames = 20;
     [SerializeField] Color damageReactionColor;
     [SerializeField] AudioClip damageReactionSound;
-    [SerializeField] float damageReactionSoundVolume = 0.05f;
+    [SerializeField] float damageReactionSoundVolume = 0.02f;
     [Header("Drops")]
     [SerializeField] GameObject[] items;
     [SerializeField] int[] weights;
     [SerializeField] GameObject itemInside;
     [SerializeField] TextMeshPro priceTagDisplay;
     int itemCost;
-    
+    float extentsX;
     //Cached refs
     GameSession gameSession;
     Wallet playerWallet;
@@ -34,6 +35,7 @@ public class ItemBottle : MonoBehaviour
     GameObject prefabToInstantiate;
     bool isDestroyed = false;
     TooltipDisplay tooltipDisplay;
+    string itemName;
     string tooltipText;
     Sprite tooltipSprite;
 
@@ -50,8 +52,11 @@ public class ItemBottle : MonoBehaviour
         priceTagDisplay.text = itemCost.ToString();
         playerWallet = GameObject.FindObjectOfType<Wallet>();
         tooltipDisplay = GameObject.FindObjectOfType<TooltipDisplay>();
+        itemName = prefabToInstantiate.GetComponent<Item>().GetItemName();
         tooltipText = prefabToInstantiate.GetComponent<Item>().GetTooltipText();
         tooltipSprite = GetItemSprite();
+        AddHalo();
+        prefabToInstantiate.GetComponent<Item>().GetTier();
     }
     private void Update()
     {
@@ -73,6 +78,7 @@ public class ItemBottle : MonoBehaviour
         damageDealer.Hit();
         StartCoroutine(DamageReaction());
         AudioSource.PlayClipAtPoint(damageReactionSound, Camera.main.transform.position, damageReactionSoundVolume);
+        damageReactionSoundVolume /= 1.1f;
 
         if ((health <= 0) && (playerWallet.GetCoinTotal() >= itemCost) && !isDestroyed)
         {
@@ -150,7 +156,13 @@ public class ItemBottle : MonoBehaviour
     }
     private Sprite GetItemSprite()
     {
-        return prefabToInstantiate.GetComponent<SpriteRenderer>().sprite;
+        Sprite itemSprite = prefabToInstantiate.GetComponent<SpriteRenderer>().sprite;
+        extentsX = gameObject.GetComponent<SpriteRenderer>().bounds.extents.x;
+        if(extentsX < itemSprite.bounds.extents.x)
+        {
+            itemInside.transform.localScale = new Vector3 (0.5f, 0.5f, 1);
+        }
+        return itemSprite;
     }
     public void DropItem()
     {
@@ -162,7 +174,7 @@ public class ItemBottle : MonoBehaviour
     }
     public void UpdateTooltipText()
     {
-        tooltipDisplay.DisplayChange(tooltipText, tooltipSprite);
+        tooltipDisplay.DisplayChange(itemName, tooltipText, tooltipSprite);
     }
     private bool PlayerIsDetected()
     {
@@ -180,5 +192,10 @@ public class ItemBottle : MonoBehaviour
             }
         }
         return false;
+    }
+    private void AddHalo()
+    {
+        GameObject halo = Instantiate(haloColors[prefabToInstantiate.GetComponent<Item>().GetTier()], transform);
+        halo.transform.SetParent(gameObject.transform);
     }
 }

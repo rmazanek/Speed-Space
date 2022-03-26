@@ -8,6 +8,7 @@ public class FiringPeriodReductionItem : Item
   [SerializeField] AudioClip powerUpSound;
   [SerializeField] float powerUpSoundVolume = 0.05f;
   Player player;
+  [SerializeField] string itemName;
   [SerializeField] string tooltipText = "Tooltip text.";
   TooltipDisplay tooltipDisplay;
   Sprite sprite;
@@ -37,7 +38,7 @@ public class FiringPeriodReductionItem : Item
   }
   public void UpdateTooltipText()
   {
-    tooltipDisplay.DisplayChange(tooltipText, sprite);
+    tooltipDisplay.DisplayChange(itemName, tooltipText, sprite);
   }
   private bool PlayerIsDetected()
   {
@@ -61,12 +62,18 @@ public class FiringPeriodReductionItem : Item
     PopulateTooltipText();
     return tooltipText;
   }
+  public override string GetItemName()
+  {
+    itemName = itemName.Replace("{dec}", (1-firingPeriodReduction).ToString("0.0%"));
+    return itemName;
+  }
   public override Sprite GetSprite()
   {
     return sprite;
   }
   public override void PopulateTooltipText()
   {
+    itemName = itemName.Replace("{dec}", (1-firingPeriodReduction).ToString("0.0%"));
     tooltipText = tooltipText.Replace("{dec}", (1-firingPeriodReduction).ToString("0.0%"));
   }
 }

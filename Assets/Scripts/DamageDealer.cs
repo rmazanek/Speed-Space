@@ -4,54 +4,63 @@ using UnityEngine;
 
 public class DamageDealer : MonoBehaviour
 {
-    [SerializeField] int damage = 100;
+  [SerializeField] int damage = 100;
 
-    [Header("Explosion Vfx")]
-    [SerializeField] GameObject explosionVfxPrefab;
-    [SerializeField] float explosionDuration = 0.3f;
-    [SerializeField] AudioClip explosionSound;
-    [SerializeField] float explosionSoundVolume = 0.05f;
-    [SerializeField] bool destroySelfOnHit = true;
+  [Header("Explosion Vfx")]
+  [SerializeField] GameObject explosionVfxPrefab;
+  [SerializeField] float explosionDuration = 0.3f;
+  [SerializeField] AudioClip explosionSound;
+  [SerializeField] float explosionSoundVolume = 0.05f;
+  [SerializeField] bool destroySelfOnHit = true;
+  [SerializeField] SlowDownOthers slow;
 
-    public int GetDamage()
+  public void SetDestroySelfOnHit(bool trueOrFalse)
+  {
+    destroySelfOnHit = trueOrFalse;
+  }
+  public int GetDamage()
+  {
+    //Debug.Log(gameObject.name + " did " + damage + " damage.");
+    return damage;
+  }
+  public void SetDamage(int newDamage)
+  {
+    damage = newDamage;
+  }
+  public void ApplyDamageBonus(float multiplier)
+  {
+    damage = Mathf.FloorToInt(damage * multiplier);
+  }
+  public void Hit()
+  {
+    PlayHitEffects();
+    if (destroySelfOnHit)
     {
-        //Debug.Log(gameObject.name + " did " + damage + " damage.");
-        return damage;
+      Destroy(gameObject);
     }
-    public void SetDamage(int newDamage)
+  }
+  private void OnTriggerEnter2D(Collider2D other)
+  {
+    slow?.ApplySlowFactor(other);
+    if (other.gameObject.layer == 6)
     {
-        damage = newDamage;
+      PlayHitEffects();
     }
-    public void ApplyDamageBonus(float multiplier)
+  }
+  public void PlayHitEffects()
+  {
+    if (explosionVfxPrefab != null)
     {
-        damage = Mathf.FloorToInt(damage * multiplier);
+      GameObject explosionVfx = Instantiate(explosionVfxPrefab, transform.position, Quaternion.identity);
+      Destroy(explosionVfx, explosionDuration);
     }
-    public void Hit()
+    if (explosionSound != null)
     {
-        PlayHitEffects();
-        if(destroySelfOnHit)
-        {
-            Destroy(gameObject);
-        }
+      AudioSource.PlayClipAtPoint(explosionSound, Camera.main.transform.position, explosionSoundVolume);
     }
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        PlayHitEffects();
-    }
-    public void PlayHitEffects()
-    {
-        if(explosionVfxPrefab != null)
-        {
-            GameObject explosionVfx = Instantiate(explosionVfxPrefab, transform.position, Quaternion.identity);
-            Destroy(explosionVfx, explosionDuration);
-        }
-        if(explosionSound != null)
-        {
-            AudioSource.PlayClipAtPoint(explosionSound, Camera.main.transform.position, explosionSoundVolume);
-        }
-    }
-    public void MultiplyDamage(float multiplier)
-    {
-        damage = Mathf.FloorToInt(damage * multiplier);
-    }
+  }
+  public void MultiplyDamage(float multiplier)
+  {
+    damage = Mathf.FloorToInt(damage * multiplier);
+  }
 }

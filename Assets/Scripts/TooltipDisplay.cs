@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class TooltipDisplay : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI tooltipText;
+    [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] Image tooltipIcon;
     [SerializeField] Image tooltipPanel;
     [SerializeField] float timeBeforeFade = 1f;
@@ -21,9 +22,9 @@ public class TooltipDisplay : MonoBehaviour
         canvasGroup.alpha = 0f;
         defaultPanelSize = tooltipPanel.rectTransform.sizeDelta;
     }
-    public void DisplayChange(string text, Sprite sprite)
+    public void DisplayChange(string itemName, string text, Sprite sprite)
     {
-        DisplayText(text);
+        DisplayText(itemName, text);
         DisplayIcon(sprite);
         DisplayResize();
 
@@ -34,8 +35,9 @@ public class TooltipDisplay : MonoBehaviour
         fadeOutProcess = StartFadeOut();
         StartCoroutine(fadeOutProcess);
     }
-    private void DisplayText(string text)
+    private void DisplayText(string itemName, string text)
     {
+        nameText.text = itemName;
         tooltipText.text = text;
         tooltipText.ForceMeshUpdate();
     }
@@ -58,7 +60,7 @@ public class TooltipDisplay : MonoBehaviour
     }
     private void DisplayResize()
     {
-        float newHeight = heightPadding + Mathf.Max(tooltipIcon.rectTransform.sizeDelta.y, tooltipText.textBounds.size.y);
+        float newHeight = heightPadding + Mathf.Max(tooltipIcon.rectTransform.sizeDelta.y, tooltipText.textBounds.size.y + 2f + nameText.textBounds.size.y);
         float currentWidth = tooltipPanel.rectTransform.sizeDelta.x;
         tooltipPanel.rectTransform.sizeDelta = new Vector2 (currentWidth, newHeight);
     }

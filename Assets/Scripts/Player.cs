@@ -25,16 +25,18 @@ public class Player : MonoBehaviour
     [SerializeField] AudioClip explosionSound;
     [SerializeField] float explosionSoundVolume = 0.05f;
     [SerializeField] AudioClip laserDamageSound;
-    [SerializeField] float laserDamageSoundVolume = 0.05f;
     [Header("Crew")]
     [SerializeField] GameObject interiorCanvas;
     [SerializeField] int maxCrewSize = 1;
+    [Header("Shield")]
+    [SerializeField] Shield shield;
     int currentCrewSize = 0;
     float xPadding;
     float yPadding;
     Player player;
     //Vector3 weaponLocation;
     Coroutine firingCoroutine;
+    Coroutine weaponCooldownCoroutine;
     SceneLoader sceneLoader;
     HealthDisplay healthDisplay;
     GameSession gameSession;
@@ -42,7 +44,7 @@ public class Player : MonoBehaviour
     GameObject parent;
     public float FirePeriodReduction {get; set;}
     PlayerControls controls;
-    public bool IsFiring = false;
+    //public bool IsFiring = false;
     public int RoundsSurvived = 0;
     ExperienceCounter experienceCounter;
     public Dictionary<String, String> StatsList = new Dictionary<String, String>();
@@ -52,7 +54,10 @@ public class Player : MonoBehaviour
     PlayerManager playerManager;
     public List<ShipModifier> ShipModifiers;
     public List<ShipModifier> HealthModifiers;
+    public List<ShipModifier> ShieldModifiers;
     private float startingHealth;
+    CameraShake cameraShake;
+    AudioSource mainCameraAudioSource;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -65,6 +70,7 @@ public class Player : MonoBehaviour
     {
         player = FindObjectOfType<Player>();
         playerManager = gameObject.GetComponent<PlayerManager>();
+        InitializeShakeCamera();
         CrewMembers = GetCrewMembersList();
         InitializeCrew();
         gameSession = FindObjectOfType<GameSession>();
@@ -96,6 +102,10 @@ public class Player : MonoBehaviour
         {
             shipModifiers.AddRange(HealthModifiers);
         }
+        if(ShieldModifiers != null)
+        {
+            shipModifiers.AddRange(ShieldModifiers);
+        }
         //shipModifiers.AddRange(crewMemberIcons);
         shipModifiers = shipModifiers.Where(o => o != null).ToList();
 
@@ -104,11 +114,16 @@ public class Player : MonoBehaviour
     public void StoreShipModifiers()
     {
         StoreHealthModifiers();
+        StoreShieldModifiers();
         ShipModifiers = GetShipModifiers();
     }
     private void StoreHealthModifiers()
     {
         HealthModifiers = GetHealthModifiers();
+    }
+    private void StoreShieldModifiers()
+    {
+        ShieldModifiers = GetShieldModifiers();
     }
     private ShipModifier ShipModifierDatum(string name, Sprite sprite, string modifier)
     {
@@ -128,7 +143,24 @@ public class Player : MonoBehaviour
 
         return shipModifiers;
     }
-  private void SetName()
+    public List<ShipModifier> GetShieldModifiers()
+    {
+        List<ShipModifier> shipModifiers = new List<ShipModifier>();
+        if(shield != null)
+        {
+            Debug.Log("Storing shield modifiers.");
+            if(shield.GetMaxHealth() - shield.GetStartingHealth() > 0)
+            {
+                shipModifiers.Add(ShipModifierDatum("Shield Health Modifier", gameSession.MaxShieldHealthSprite, "+" + (shield.GetMaxHealth() - shield.GetStartingHealth()).ToString("F0")));
+            }
+            if(shield.GetRegenRate() - shield.GetStartingRegenRate() > 0)
+            {
+                shipModifiers.Add(ShipModifierDatum("Shield Regen Modifier", gameSession.ShieldRegenSprite, "+" + (shield.GetRegenRate() - shield.GetStartingRegenRate()).ToString("F0") + "/s"));
+            }            
+        }
+        return shipModifiers;
+    }
+    private void SetName()
     {
         int rand = UnityEngine.Random.Range(0, gameSession.GetComponent<NameList>().NamesList.Length);
         this.name = gameSession.GetComponent<NameList>().NamesList[rand];
@@ -170,7 +202,17 @@ public class Player : MonoBehaviour
 
         ClampPosition();
     }
-
+    public void InitializeShakeCamera()
+    {
+        cameraShake = Camera.main.GetComponent<CameraShake>();
+    }
+    void ShakeCamera()
+    {
+        if(cameraShake != null)
+        {
+            cameraShake.Play();
+        }
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         DamageDealer damageDealer = other.gameObject.GetComponent<DamageDealer>();
@@ -182,7 +224,10 @@ public class Player : MonoBehaviour
         if(!PauseMenu.GamePaused)
         {
             health -= damage;
-            AudioSource.PlayClipAtPoint(laserDamageSound, Camera.main.transform.position, laserDamageSoundVolume);
+            //AudioSource.PlayClipAtPoint(laserDamageSound, Camera.main.transform.position, laserDamageSoundVolume);
+            ShakeCamera();
+            //AudioSource.PlayClipAtPoint(laserDamageSound, transform.position, laserDamageSoundVolume);
+            Camera.main.GetComponent<AudioSource>().PlayOneShot(laserDamageSound, 1f);
             HealthDisplayUpdate();
             DeathCheck();
         }
@@ -192,6 +237,7 @@ public class Player : MonoBehaviour
     {
         health -= (float)damageDealer.GetDamage();
         damageDealer.Hit();
+        ShakeCamera();
         HealthDisplayUpdate();
         DeathCheck();
     }
@@ -239,17 +285,29 @@ public class Player : MonoBehaviour
         xPadding = spriteRenderer.sprite.bounds.extents.x;
         yPadding = spriteRenderer.sprite.bounds.extents.y;
     }
+    //public void Fire(bool playerFiring, bool optionalStartFiring = false)
+    //{
+    //    if((optionalStartFiring | playerFiring) && !PauseMenu.GamePaused)
+    //    {
+    //        firingCoroutine = StartCoroutine(weapon.FireContinuously());
+    //        IsFiring = true;
+    //    }
+    //    if(!playerFiring & firingCoroutine != null)
+    //    {
+    //        StopCoroutine(firingCoroutine);
+    //        IsFiring = false;
+    //    }
+    //}
     public void Fire(bool playerFiring, bool optionalStartFiring = false)
     {
-        if((optionalStartFiring | playerFiring) & !PauseMenu.GamePaused)
+        if((optionalStartFiring | playerFiring) && !PauseMenu.GamePaused && !weapon.WeaponIsFiring)
         {
             firingCoroutine = StartCoroutine(weapon.FireContinuously());
-            IsFiring = true;
+            weaponCooldownCoroutine = StartCoroutine(weapon.CooldownTimer());
         }
         if(!playerFiring & firingCoroutine != null)
         {
             StopCoroutine(firingCoroutine);
-            IsFiring = false;
         }
     }
     public void AddToHealth(int healAmount)
@@ -314,7 +372,7 @@ public class Player : MonoBehaviour
         }
     }
 
-  public Sprite GetShipSprite()
+    public Sprite GetShipSprite()
     {
         Sprite shipSprite = gameObject.GetComponent<SpriteRenderer>().sprite;
         return shipSprite;
@@ -395,5 +453,15 @@ public class Player : MonoBehaviour
     public Transform GetFirstCompartment()
     {
         return gameObject.GetComponentInChildren<Compartment>().transform;
+    }
+    public void SetNewShield(ShieldItem newShield)
+    {
+        shield.gameObject.SetActive(true);
+        shield.GetComponent<SpriteRenderer>().sprite = newShield.GetSprite();
+        shield.AddToMaxHealth((int)Mathf.Max(0, newShield.GetMaxHealth()-shield.GetMaxHealth()));
+        shield.SetRegenRate(newShield.GetRegenRate());
+        shield.SetBrokenCooldown(newShield.GetBrokenCooldown());
+        shield.Activate();
+        playerManager.SetShield(shield);
     }
 }

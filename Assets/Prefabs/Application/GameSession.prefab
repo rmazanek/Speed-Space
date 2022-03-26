@@ -48,6 +48,9 @@ MonoBehaviour:
   DamageMultiplierSprite: {fileID: 21300000, guid: b0cb50cdaad79d642b595ad7302c2a05, type: 3}
   ProjectileSpeedMultiplierSprite: {fileID: 21300000, guid: ae12cd90b4857534eb1c60293715b9c7, type: 3}
   MaxHealthSprite: {fileID: 21300000, guid: bf80fb7b93b8b394a9271536768c28ac, type: 3}
+  MaxShieldHealthSprite: {fileID: 21300000, guid: c9419ba745ea31046bfe00463bf7a142, type: 3}
+  ShieldRegenSprite: {fileID: 21300000, guid: ae12cd90b4857534eb1c60293715b9c7, type: 3}
+  ShieldCooldownSprite: {fileID: 21300000, guid: ccf9bfeffb6c9df45a38786f1a0fbc6c, type: 3}
   WorkerSprite: {fileID: 7254148486073561340, guid: 6367f5e87ee7d894e9acae9fa739d16c, type: 3}
   extractCanvasPrefab: {fileID: 4897891398951588247, guid: 9583298a93aa2de43b979cbb57329e6a, type: 3}
   AllSpawnsPaused: 0

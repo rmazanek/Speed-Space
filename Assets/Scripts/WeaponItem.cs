@@ -7,6 +7,7 @@ public class WeaponItem : Item
   [SerializeField] AudioClip powerUpSound;
   [SerializeField] float powerUpSoundVolume = 0.05f;
   Player player;
+  [SerializeField] string itemName;
   [SerializeField, Tooltip("Dynamic tags: {numProjectiles}, {damage}, {useCooldown}, {projectileType}, {projectileSpeed}"), TextArea] 
   string tooltipText = "Tooltip text.";
   Weapon weapon;
@@ -48,7 +49,7 @@ public class WeaponItem : Item
   }
   public void UpdateTooltipText()
   {
-    tooltipDisplay.DisplayChange(tooltipText, sprite);
+    tooltipDisplay.DisplayChange(itemName, tooltipText, sprite);
   }
   private bool PlayerIsDetected()
   {
@@ -73,6 +74,10 @@ public class WeaponItem : Item
     PopulateTooltipText();
     return tooltipText;
   }
+  public override string GetItemName()
+  {
+    return itemName;
+  }
   public override Sprite GetSprite()
   {
     return sprite;
@@ -94,6 +99,11 @@ public class WeaponItem : Item
     //Debug.Log(player.name);
     //Debug.Log(activePlayerWeaponMod.name);
     //Debug.Log(activePlayerWeaponMod.DamageMultiplier);
+    //itemName = itemName.Replace("{damage}", (damageDealer.GetDamage() * activePlayerWeaponMod.DamageMultiplier).ToString("F0"));
+    //itemName = itemName.Replace("{numProjectiles}", numberOfProjectiles.ToString() + " projectiles");
+    //itemName = itemName.Replace("{projectileType}", weapon.ProjectilePrefab.name);
+    //itemName = itemName.Replace("{useCooldown}", (weapon.GetUnmodifiedUseCooldown() * activePlayerWeaponMod.FirePeriodReduction).ToString("F3"));
+    //itemName = itemName.Replace("{projectileSpeed}", (weapon.GetUnmodifiedProjectileSpeed() * activePlayerWeaponMod.ProjectileSpeedMultiplier).ToString("F0"));
     tooltipText = tooltipText.Replace("{damage}", (damageDealer.GetDamage() * activePlayerWeaponMod.DamageMultiplier).ToString("F0"));
     tooltipText = tooltipText.Replace("{numProjectiles}", numberOfProjectiles.ToString() + " projectiles");
     tooltipText = tooltipText.Replace("{projectileType}", weapon.ProjectilePrefab.name);

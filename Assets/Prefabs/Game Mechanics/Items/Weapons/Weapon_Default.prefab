@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4102171139444448199}
   - component: {fileID: 4102171139444448198}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 4102171140179394702}
   - component: {fileID: 4102171140179394675}
   - component: {fileID: 2086157257583636934}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Weapon_Default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,6 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpSound: {fileID: 8300000, guid: 7e27b8a3fd710184db710cf17300acd3, type: 3}
   powerUpSoundVolume: 0.05
+  itemName: Default Weapon
   tooltipText: Fires a {damage} damage {projectileType} every {useCooldown} seconds
     at a speed of {projectileSpeed}.
 --- !u!61 &4102171140179394673

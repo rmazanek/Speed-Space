@@ -9,6 +9,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] float useCooldown = 0.4f;
     [SerializeField] float yProjectileVelocity = 7f;
     WeaponMod weaponMod;
+    public bool WeaponIsFiring = false;
     private void Start()
     {
         weaponMod = gameObject.GetComponent<WeaponMod>();
@@ -23,6 +24,12 @@ public class Weapon : MonoBehaviour
             ApplyDamageBonus(projectile);
             yield return new WaitForSeconds(useCooldown * weaponMod.FirePeriodReduction);
         }
+    }
+    public IEnumerator CooldownTimer()
+    {
+        WeaponIsFiring = true;
+        yield return new WaitForSeconds(useCooldown * weaponMod.FirePeriodReduction);
+        WeaponIsFiring = false;
     }
     private void ApplyDamageBonus(GameObject projectile)
     {

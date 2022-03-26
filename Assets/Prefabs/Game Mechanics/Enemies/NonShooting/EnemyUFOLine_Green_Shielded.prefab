@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3782096629504671591}
   - component: {fileID: 1872466678182010876}
   - component: {fileID: 5315432686764158007}
+  - component: {fileID: 7290978354079768158}
   m_Layer: 0
   m_Name: EnemyUFOLine_Green_Shielded
   m_TagString: Untagged
@@ -46,15 +47,19 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4171629226402805045}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58585064a4adf4346a0bb05e0507e568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isShop: 0
   loopRoute: 0
-  destroyAtEnd: 0
-  teleportBackToStart: 1
+  destroyAtEnd: 1
+  teleportBackToStart: 0
+  minimumTemporarySpeedFactor: 0.25
+  maximumTemporarySpeedFactor: 1
+  PartOfArrangement: 0
+  ArrangementIndex: 0
 --- !u!114 &5315432686764158007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,6 +72,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2e3a7b99ea430640a15efcda9bf100a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7290978354079768158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4171629226402805045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8605eed3d0a1adc4e8b92064bf048825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  children:
+  - {fileID: 1455123975925429739}
+  - {fileID: 8661080678881241628}
+  - {fileID: 2779503989386098218}
+  - {fileID: 463992070365136254}
+  - {fileID: 2060247138181672265}
+  - {fileID: 517984208018102714}
+  - {fileID: 7825483509448408412}
+  InitialOffset: {x: 0, y: 0, z: 0}
+  Offset: {x: 0, y: 0, z: 0}
+  ChildrenNumber: 0
+  direction: {x: 1, y: 0, z: 0}
+  spaceBetween: 1
 --- !u!1001 &357534499084431681
 PrefabInstance:
   m_ObjectHideFlags: 0

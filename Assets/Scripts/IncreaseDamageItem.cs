@@ -8,7 +8,8 @@ public class IncreaseDamageItem : Item
   [SerializeField] AudioClip powerUpSound;
   [SerializeField] float powerUpSoundVolume = 0.05f;
   Player player;
-  [SerializeField] string tooltipText = "Tooltip text.";
+  [SerializeField] string itemName;
+  [SerializeField, Tooltip("Dynamic tags: {inc}")] string tooltipText = "Tooltip text.";
   TooltipDisplay tooltipDisplay;
   Sprite sprite;
   private void Start()
@@ -37,7 +38,7 @@ public class IncreaseDamageItem : Item
   }
   public void UpdateTooltipText()
   {
-    tooltipDisplay.DisplayChange(tooltipText, sprite);
+    tooltipDisplay.DisplayChange(itemName, tooltipText, sprite);
   }
   private bool PlayerIsDetected()
   {
@@ -61,12 +62,18 @@ public class IncreaseDamageItem : Item
     PopulateTooltipText();
     return tooltipText;
   }
+  public override string GetItemName()
+  {
+    itemName = itemName.Replace("{inc}", (damageMultiplier-1).ToString("0.0%"));
+    return itemName;
+  }
   public override Sprite GetSprite()
   {
     return sprite;
   }
   public override void PopulateTooltipText()
   {
+    itemName = itemName.Replace("{inc}", (damageMultiplier-1).ToString("0.0%"));
     tooltipText = tooltipText.Replace("{inc}", (damageMultiplier-1).ToString("0.0%"));
   }
 }

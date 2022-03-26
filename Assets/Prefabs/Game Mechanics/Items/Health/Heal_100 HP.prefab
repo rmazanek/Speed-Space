@@ -103,6 +103,7 @@ MonoBehaviour:
   maxHealthIncrease: 0
   powerUpSound: {fileID: 8300000, guid: a1a04f0389487b74cb35f93d1f0ea59f, type: 3}
   powerUpSoundVolume: 0.05
+  itemName: +{heal} HP
   tooltipText: Heals for {heal} HP.
 --- !u!61 &8733570793785254161
 BoxCollider2D:
@@ -175,4 +176,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9fac6dcbbd320f4d8bef8cec75a7e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemCost: 1
+  ItemCost: 0

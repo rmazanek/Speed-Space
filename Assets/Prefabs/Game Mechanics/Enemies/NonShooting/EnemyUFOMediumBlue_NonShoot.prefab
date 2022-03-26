@@ -27,6 +27,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -7731346564808217714, guid: 316fd891658a549459fed2c79086cf55, type: 3}
+      propertyPath: health
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: -7731346564808217714, guid: 316fd891658a549459fed2c79086cf55, type: 3}
       propertyPath: shootingHandledElsewhere
       value: 1
       objectReference: {fileID: 0}
