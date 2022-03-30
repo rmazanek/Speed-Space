@@ -54,6 +54,10 @@ MonoBehaviour:
   WorkerSprite: {fileID: 7254148486073561340, guid: 6367f5e87ee7d894e9acae9fa739d16c, type: 3}
   extractCanvasPrefab: {fileID: 4897891398951588247, guid: 9583298a93aa2de43b979cbb57329e6a, type: 3}
   AllSpawnsPaused: 0
+  slowTimeScale: 0.25
+  CurrentLevel: {fileID: 0}
+  FinalLevelEnabled: 0
+  FinalLevelRevealed: 0
 --- !u!114 &-2724280845830684613
 MonoBehaviour:
   m_ObjectHideFlags: 0

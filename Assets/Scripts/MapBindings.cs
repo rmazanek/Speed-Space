@@ -5,104 +5,94 @@ using UnityEngine.InputSystem;
 
 public class MapBindings : MonoBehaviour
 {
-    PlayerControls playerControls;
-    PlayerInput playerInput;
-    PlayerBindings playerBindings;
-    //bool initializeMapObjectsNeeded = false;
-    bool inventoryControlsOn = false;
-    bool inventoryDisableNeeded = false;
-    GameSession gameSession;
-    GameObject inventory;
-    MapMover mapMover;
-    MapManager mapManager;
-    float moveX;
+  PlayerControls playerControls;
+  PlayerInput playerInput;
+  PlayerBindings playerBindings;
+  bool inventoryControlsOn = false;
+  bool inventoryDisableNeeded = false;
+  GameSession gameSession;
+  GameObject inventory;
+  MapMover mapMover;
+  MapManager mapManager;
+  float moveX;
 
-    private void Start()
+  private void Start()
+  {
+    playerInput = FindObjectOfType<PlayerInput>();
+    playerBindings = FindObjectOfType<PlayerBindings>();
+  }
+  private void Update()
+  {
+    if (inventoryDisableNeeded)
     {
-        playerInput = FindObjectOfType<PlayerInput>();
-        playerBindings = FindObjectOfType<PlayerBindings>();
+      inventory = GameObject.Find("Inventory Canvas");
+      inventory.SetActive(false);
+      playerBindings.SwitchInputActions("Map");
+      inventoryDisableNeeded = false;
     }
-    private void Update()
+  }
+  public void SetPlayerControls(PlayerControls controls)
+  {
+    playerControls = controls;
+  }
+  public void InventoryDisableNeeded()
+  {
+    inventoryDisableNeeded = true;
+  }
+  public void Submit()
+  {
+    mapManager = FindObjectOfType<MapManager>();
+    mapManager.StartSelectedLevel();
+  }
+  public void Move(InputAction.CallbackContext context)
+  {
+    mapMover = FindObjectOfType<MapMover>();
+    if (context.started && context.ReadValue<Vector2>().x > 0)
     {
-        if(inventoryDisableNeeded)
-        {
-            inventory = GameObject.Find("Inventory Canvas");
-            inventory.SetActive(false);
-            playerBindings.SwitchInputActions("Map");
-            inventoryDisableNeeded = false;
-        }
+      moveX = 1f;
+      mapMover.NavigateMap(moveX);
     }
-    // Start is called before the first frame update
-    public void SetPlayerControls(PlayerControls controls)
+    else if (context.started && context.ReadValue<Vector2>().x < 0)
     {
-        playerControls = controls;
+      moveX = -1f;
+      mapMover.NavigateMap(moveX);
     }
-    public void InventoryDisableNeeded()
+  }
+  public void Inventory()
+  {
+    inventoryControlsOn = !inventoryControlsOn;
+    if (inventoryControlsOn)
     {
-        inventoryDisableNeeded = true;
+      inventory.SetActive(true);
+      playerControls.Map.Disable();
+      playerControls.Inventory.Enable();
     }
-    public void Submit()
+    if (!inventoryControlsOn)
     {
-        Debug.Log("Submit Map.");
-        mapManager = FindObjectOfType<MapManager>();
-        mapManager.StartSelectedLevel();
+      inventory.SetActive(false);
+      playerControls.Inventory.Disable();
+      playerControls.Map.Enable();
     }
-    public void Move(InputAction.CallbackContext context)
+  }
+  public void Menu()
+  {
+    PauseMenu pauseMenu = GameObject.FindObjectOfType<PauseMenu>();
+    if (PauseMenu.GamePaused)
     {
-        Debug.Log("Move Map.");
-        mapMover = FindObjectOfType<MapMover>();
-        if(context.started && context.ReadValue<Vector2>().x > 0)
-        {
-            moveX = 1f;
-            mapMover.NavigateMap(moveX);
-            Debug.Log("Move map right.");
-        }
-        else if(context.started && context.ReadValue<Vector2>().x < 0)
-        {
-            moveX = -1f;
-            mapMover.NavigateMap(moveX);
-            Debug.Log("Move map left.");
-        }
+      pauseMenu.ResumeGame();
     }
-    public void Inventory()
+    else
     {
-        inventoryControlsOn = !inventoryControlsOn;
-        if(inventoryControlsOn)
-        {
-            Debug.Log("Disable Map controls and Enable Inventory controls.");
-            inventory.SetActive(true);
-            playerControls.Map.Disable();
-            playerControls.Inventory.Enable();
-        }
-        if(!inventoryControlsOn)
-        {
-            Debug.Log("Disable Inventory controls and Enable Map controls.");
-            inventory.SetActive(false);
-            playerControls.Inventory.Disable();
-            playerControls.Map.Enable();
-        }
+      pauseMenu.PauseGame();
     }
-    public void Menu()
-    {
-        Debug.Log("Menu Map.");
-        PauseMenu pauseMenu = GameObject.FindObjectOfType<PauseMenu>();
-        if(PauseMenu.GamePaused)
-        {
-            pauseMenu.ResumeGame();
-        }
-        else
-        {
-            pauseMenu.PauseGame();
-        }
-    }
-    public void EnableMapControls()
-    {
-        Debug.Log("Enable Map Controls called.");
-        playerInput.SwitchCurrentActionMap("Map");
-    }
-    public void DisableMapControls()
-    {
-        playerInput = FindObjectOfType<PlayerInput>();
-        playerInput.SwitchCurrentActionMap("UI");
-    }
+  }
+  public void EnableMapControls()
+  {
+    playerInput.SwitchCurrentActionMap("Map");
+  }
+  public void DisableMapControls()
+  {
+    playerInput = FindObjectOfType<PlayerInput>();
+    playerInput.SwitchCurrentActionMap("UI");
+  }
 }

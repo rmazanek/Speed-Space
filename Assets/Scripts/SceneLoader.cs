@@ -33,6 +33,10 @@ public class SceneLoader : MonoBehaviour
   MapBindings mapBindings;
   WormholeScaler wormholeScaler;
   ParentPositionMover parentPositionMover;
+  [SerializeField] AudioClip gameWinSoundClip;
+  [SerializeField] float gameWinSoundVolume = 0.075f;
+  [SerializeField] float gameWinTransitionPeriod = 9.6f;
+
   private void Start()
   {
     gameSession = FindObjectOfType<GameSession>();
@@ -140,6 +144,22 @@ public class SceneLoader : MonoBehaviour
     AudioSource.PlayClipAtPoint(gameOverSoundClip, Camera.main.transform.position, gameOverSoundVolume);
     yield return new WaitForSeconds(gameOverTransitionPeriod);
     SceneManager.LoadScene("Game Over");
+    playerBindings.DisableShipControls();
+    playerInput.SwitchCurrentActionMap("UI");
+    menuBindings.EnableUIControls();
+  }
+  public void LoadGameWin()
+  {
+    StartCoroutine(LoadGameWinCoroutine());
+  }
+  IEnumerator LoadGameWinCoroutine()
+  {
+    backgroundMusicSource = GameObject.FindGameObjectWithTag("Background Music").GetComponent<AudioSource>();
+    backgroundMusicSource.volume = 0f;
+
+    AudioSource.PlayClipAtPoint(gameWinSoundClip, Camera.main.transform.position, gameWinSoundVolume);
+    yield return new WaitForSeconds(gameWinTransitionPeriod);
+    SceneManager.LoadScene("Win Screen");
     playerBindings.DisableShipControls();
     playerInput.SwitchCurrentActionMap("UI");
     menuBindings.EnableUIControls();

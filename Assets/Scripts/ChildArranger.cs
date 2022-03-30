@@ -5,11 +5,11 @@ using UnityEngine;
 public class ChildArranger : MonoBehaviour
 {
   [SerializeField] List<Transform> children;
-  Vector3 screenBounds;
-  private Vector3 centerPosition = new Vector3(0f, 0f, 0f);
+  //Vector3 screenBounds;
+  //private Vector3 centerPosition = new Vector3(0f, 0f, 0f);
   public Vector3 InitialOffset;
   public Vector3 Offset;
-  public int ChildrenNumber;
+  //public int ChildrenNumber;
   [SerializeField] Vector3 direction;
   [SerializeField] float spaceBetween = 1f;
   // Start is called before the first frame update

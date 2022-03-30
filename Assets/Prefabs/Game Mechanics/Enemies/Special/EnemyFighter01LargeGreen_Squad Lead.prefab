@@ -235,7 +235,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2904202065550265979, guid: 30dc96427a79ac84498d2042e59e0961, type: 3}
       propertyPath: health
-      value: 30000
+      value: 20000
       objectReference: {fileID: 0}
     - target: {fileID: -2904202065550265979, guid: 30dc96427a79ac84498d2042e59e0961, type: 3}
       propertyPath: aimedShot

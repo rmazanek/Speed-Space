@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using System.Linq;
 
 public class LetterItem : MonoBehaviour
 {
@@ -18,7 +19,6 @@ public class LetterItem : MonoBehaviour
   public int LetterIndex;
   Player player;
   LevelContainer currentLevel;
-  // Start is called before the first frame update
   void Start()
   {
     gameSession = FindObjectOfType<GameSession>();
@@ -54,7 +54,22 @@ public class LetterItem : MonoBehaviour
     {
       currentLevel.AwardLetter(LetterIndex);
       AudioSource.PlayClipAtPoint(powerUpSound, Camera.main.transform.position, powerUpSoundVolume);
+      if (AllLettersCollected()) gameSession.FinalLevelEnabled = true;
       Destroy(gameObject);
     }
+  }
+  private bool AllLettersCollected()
+  {
+    List<LevelContainer> levels;
+    levels = FindObjectsOfType<LevelContainer>().ToList();
+
+    for (int i = 0; i < levels.Count; i++)
+    {
+      for (int j = 0; j < levels[i].LetterCollected.Length; j++)
+      {
+        if (!levels[i].LetterCollected[j]) return false;
+      }
+    }
+    return true;
   }
 }

@@ -40,7 +40,6 @@ public class LevelContainer : MonoBehaviour
   public float EnemyDamageCumulativeMultiplier { get; set; } = 1f; //Applied in Enemy
   public float EnemyTimeBetweenSpawnsCumulativeMultiplier { get; set; } = 1f; //Applied in EnemySpawner
   public float EnemyNumberCumulativeMultiplier { get; set; } = 1f; //Applied in EnemySpawner
-  bool extractAvailable;
   public int LevelIndex { get => levelIndex; }
   private bool levelCharacteristicsNeedUpdate;
   private void Start()
@@ -68,8 +67,6 @@ public class LevelContainer : MonoBehaviour
   }
   private void ChangeBackground()
   {
-    //Debug.Log(backgroundMaterialGameObject.GetComponent<MeshRenderer>().material);
-    //Debug.Log(backgroundMaterial);
     backgroundMaterialGameObject.GetComponent<MeshRenderer>().material = backgroundMaterial;
     backgroundMaterialGameObject.GetComponent<BackgroundScroller>().RestartBackgroundScroll();
   }
@@ -90,7 +87,6 @@ public class LevelContainer : MonoBehaviour
   {
     bossDefeated = true;
     gameSession = FindObjectOfType<GameSession>();
-    //Debug.Log("This is where it can't find an instance, but the name is " + gameSession.name);
     gameSession.ExtractAvailable = true;
     gameSession.InstantiateExtract();
   }
@@ -126,14 +122,6 @@ public class LevelContainer : MonoBehaviour
     modifierFunctions.Add(EnemyTimeBetweenSpawnsModifier);
     modifierFunctions.Add(EnemyNumberModifier);
 
-
-    //modifierFunctions.Add("EnemyMoveSpeedModifier");
-    //modifierFunctions.Add("EnemyHealthModifier");
-    //modifierFunctions.Add("EnemyMaxTimeBetweenShotsModifier");
-    //modifierFunctions.Add("EnemyDamageModifier");
-    //modifierFunctions.Add("EnemyTimeBetweenSpawnsModifier");
-    //modifierFunctions.Add("EnemyNumberModifier");
-
     return modifierFunctions;
   }
   private Action GetRandomModifierMethod(int rand)
@@ -157,7 +145,6 @@ public class LevelContainer : MonoBehaviour
   {
     int rand = UnityEngine.Random.Range(0, GetTotalWeight());
     GetRandomModifierMethod(rand)();
-    //Invoke(GetRandomModifierMethodName(rand), secondsBeforeModifierApplied);
   }
   private void EnemyMoveSpeedModifier()
   {

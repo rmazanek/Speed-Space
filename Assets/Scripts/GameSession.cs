@@ -52,7 +52,7 @@ public class GameSession : MonoBehaviour
   [SerializeField] float slowTimeScale = 0.25f;
   public LevelContainer CurrentLevel;
   WalletDisplay walletDisplay;
-  public bool FinalLevelEnabled = true;
+  public bool FinalLevelEnabled = false;
   public bool FinalLevelRevealed = false;
 
   private void Awake()
@@ -69,7 +69,6 @@ public class GameSession : MonoBehaviour
       DontDestroyOnLoad(gameObject);
     }
   }
-  // Start is called before the first frame update
   void Start()
   {
     gameScore = 0;
@@ -149,7 +148,17 @@ public class GameSession : MonoBehaviour
   }
   public int GetUnlockedLevelCount()
   {
-    return levelList.Where(a => a.ExtractAvailable()).Count() + 1;
+    levelList = levelManager.GetLevelList();
+    int levelsInTheGameWithoutFinalLevel = levelList.Count - 1; //5
+    int levelsCompleted = levelList.Where(a => a.ExtractAvailable()).Count();
+    int finalLevelAdded = 0;
+    if (FinalLevelRevealed)
+    {
+      finalLevelAdded = 1;
+    }
+    int levelsUnlocked = Mathf.Clamp(levelsCompleted + 1, 1, levelsInTheGameWithoutFinalLevel + finalLevelAdded);
+    //return levelList.Where(a => a.ExtractAvailable()).Count() + 1;
+    return levelsUnlocked;
   }
   public void CountLevels()
   {
@@ -193,5 +202,9 @@ public class GameSession : MonoBehaviour
   public void IncrementMaxPlayerShips()
   {
     MaxPlayerShips += 1;
+  }
+  public void EndGameWithWinScreen()
+  {
+    sceneLoader.LoadGameWin();
   }
 }

@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LetterCollectiblesDisplay : MonoBehaviour
 {
-  [SerializeField] SpriteRenderer[] spriteRenderers;
+  [SerializeField] RawImage[] images;
   [SerializeField] Color uncollectedColor = new Color(255, 255, 255, 0);
   [SerializeField] Color collectedColor = new Color(255, 255, 255, 100);
 
@@ -14,14 +15,14 @@ public class LetterCollectiblesDisplay : MonoBehaviour
   }
   private void MakeSpritesInvisible()
   {
-    for (int i = 0; i < spriteRenderers.Length; i++)
+    for (int i = 0; i < images.Length; i++)
     {
-      spriteRenderers[i].color = uncollectedColor;
+      images[i].color = uncollectedColor;
     }
   }
   public void ColorInSprite(int index)
   {
-    spriteRenderers[index].color = collectedColor;
+    images[index].color = collectedColor;
   }
 
 }

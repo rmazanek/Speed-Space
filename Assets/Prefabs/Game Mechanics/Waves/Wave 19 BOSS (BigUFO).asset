@@ -19,3 +19,6 @@ MonoBehaviour:
   spawnRandomFactor: 0.3
   numberOfEnemies: 1
   moveSpeed: 0.25
+  AdjustableNumber: 1
+  enemyWavePausesOtherSpawns: 0
+  childrenRequirePathingInstructions: 0

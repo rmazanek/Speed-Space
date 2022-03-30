@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4126798960662430573}
   - component: {fileID: 1823017389783035242}
   - component: {fileID: 5915561162558201228}
+  - component: {fileID: 2372853786529697143}
   m_Layer: 0
   m_Name: EnemyFighterLine_Blue
   m_TagString: Untagged
@@ -69,6 +70,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2e3a7b99ea430640a15efcda9bf100a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2372853786529697143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699660577986624153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8605eed3d0a1adc4e8b92064bf048825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  children:
+  - {fileID: 6064174351212646592}
+  - {fileID: 7039819080689187899}
+  - {fileID: 2172944820077352635}
+  - {fileID: 3177836352948917549}
+  - {fileID: 1209896054050383299}
+  InitialOffset: {x: 0, y: 0, z: 0}
+  Offset: {x: 0, y: 0, z: 0}
+  direction: {x: 1, y: 0, z: 0}
+  spaceBetween: 1
 --- !u!1001 &1691785952191370269
 PrefabInstance:
   m_ObjectHideFlags: 0

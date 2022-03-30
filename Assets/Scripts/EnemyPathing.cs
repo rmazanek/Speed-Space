@@ -147,6 +147,7 @@ public class EnemyPathing : MonoBehaviour
     {
       Vector3 initialOffset = childArranger.InitialOffset;
       Vector3 offset = childArranger.Offset;
+      Debug.Log("ArrangementIndex is: " + ArrangementIndex);
       return -(offset * ArrangementIndex) / 2;
     }
     else

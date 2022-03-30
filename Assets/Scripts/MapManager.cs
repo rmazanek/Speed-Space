@@ -66,12 +66,13 @@ public class MapManager : MonoBehaviour
     backgroundMusicSource.volume = 0f;
     AudioSource.PlayClipAtPoint(finalLevelRevealAnticipationMusic, Camera.main.transform.position, finalLevelRevealAnticipationMusicVolume);
     yield return new WaitForSeconds(finalLevelRevealAnticipationDuration);
-    //    int currentNumberOfLevels = FindObjectsOfType<LevelIcon>().Length;
+
     finalLevel.SetActive(true);
-    //    finalLevel.GetComponent<LevelIcon>().LevelIconIndex = currentNumberOfLevels;
+    finalLevel.GetComponentInChildren<LevelIcon>().LevelIconIndex = FindObjectsOfType<LevelIcon>().Length;
     AudioSource.PlayClipAtPoint(finalLevelRevealSound, Camera.main.transform.position, finalLevelRevealSoundVolume);
     GameObject revealVfx = Instantiate(finalLevelRevealVfx, finalLevel.transform.position, Quaternion.identity);
     yield return new WaitForSeconds(finalLevelRevealVfxDuration);
+
     backgroundMusicSource.UnPause();
     RampUpBackgroundVolume();
   }
@@ -80,6 +81,7 @@ public class MapManager : MonoBehaviour
     if (gameSession.FinalLevelRevealed)
     {
       finalLevel.SetActive(true);
+      finalLevel.GetComponentInChildren<LevelIcon>().LevelIconIndex = FindObjectsOfType<LevelIcon>().Length;
     }
     if (gameSession.FinalLevelEnabled && !gameSession.FinalLevelRevealed)
     {

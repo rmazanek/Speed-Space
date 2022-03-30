@@ -41,6 +41,7 @@ public class MapMover : MonoBehaviour
   }
   IEnumerator MoveToNextIconCoroutine()
   {
+    levelIcons = GetLevelIcons();
     while (gameObject.transform.position != levelIcons[newIconIndex].transform.position)
     {
       gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, levelIcons[newIconIndex].transform.position, maxDistanceDelta * Time.deltaTime);
@@ -51,7 +52,15 @@ public class MapMover : MonoBehaviour
   public void SetNewIconIndex(int value)
   {
     gameSession = FindObjectOfType<GameSession>();
-    newIconIndex = Mathf.Clamp(value, 0, gameSession.GetUnlockedLevelCount() - 1);
+    int unlockedMaxIndex = gameSession.GetUnlockedLevelCount() - 1;
+    int finalLevelAwaitingAnimation = 0;
+
+    if (gameSession.FinalLevelRevealed && levelIcons.Count < gameSession.GetUnlockedLevelCount())
+    {
+      finalLevelAwaitingAnimation = 1;
+    }
+
+    newIconIndex = Mathf.Clamp(value, 0, unlockedMaxIndex - finalLevelAwaitingAnimation);//-1);
   }
   private List<LevelIcon> GetLevelIcons()
   {

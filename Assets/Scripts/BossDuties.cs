@@ -16,6 +16,7 @@ public class BossDuties : MonoBehaviour
   [SerializeField] float timeBetweenEnemiesDestroyed = 0.2f;
   [SerializeField] int bossExplosions = 6;
   [SerializeField] Enemy enemyComponent;
+  [SerializeField] bool gameWinningBoss = false;
   bool dutiesIncomplete = true;
   // Start is called before the first frame update
   void Start()
@@ -58,10 +59,19 @@ public class BossDuties : MonoBehaviour
       dutiesIncomplete = false;
       SlowTimeUntilPaused();
       DestroyRemainingEnemiesWithoutReward();
-      BossDefeated();
-      ModifyEnemies();
-      gameSession.AllSpawnsPaused = false;
       //gameSession.PlayWinSong();
+      if (gameWinningBoss)
+      {
+        gameSession.AllSpawnsPaused = true;
+        gameSession.EndGameWithWinScreen();
+      }
+      else
+      {
+        BossDefeated();
+        ModifyEnemies();
+        gameSession.AllSpawnsPaused = false;
+      }
+
     }
   }
   void SlowTimeUntilPaused()

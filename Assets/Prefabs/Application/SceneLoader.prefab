@@ -54,3 +54,6 @@ MonoBehaviour:
   levelSuccessTransitionPeriod: 1
   warpSoundClip: {fileID: 8300000, guid: 5afad610a05c54144874ba61746808a4, type: 3}
   warpSoundVolume: 0.075
+  gameWinSoundClip: {fileID: 8300000, guid: 9141255cd9030304fa302325e7300ccb, type: 3}
+  gameWinSoundVolume: 0.075
+  gameWinTransitionPeriod: 9.6
